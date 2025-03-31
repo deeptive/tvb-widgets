@@ -17,6 +17,7 @@ import matplotlib.colors as mcolors
 from IPython.display import display
 from tvb.datatypes.connectivity import Connectivity
 
+
 from tvbwidgets import get_logger
 from tvbwidgets.ui.base_widget import TVBWidget
 
@@ -41,6 +42,17 @@ class ConnectivityMatrixEditor(TVBWidget):
         self.tab = widgets.Tab(layout=self.DEFAULT_BORDER)
         self._get_quadrant_range(selection=1)
         self._prepare_matrices_tab()
+        self.region_output = widgets.Output(
+            layout={
+                'border': '1px solid gray',
+                'padding': '10px',
+                'margin': '10px 0',
+                'width': '100%'
+            }
+        )
+        
+
+    
 
     def _make_header(self):
         options = ["Quadrant 1", "Quadrant 2", "Quadrant 3", "Quadrant 4"]
@@ -275,6 +287,17 @@ class ConnectivityMatrixEditor(TVBWidget):
             value = matrix[int(self.from_row + self.row)][int(self.from_col + self.col)]
             matrix_ = self.clicked_matrix + "_matrix"
             matrix_ui = getattr(self, matrix_)
+            source_idx = int(self.from_row + self.row)
+            target_idx = int(self.from_col + self.col)
+            source_region = self.connectivity.region_labels[source_idx]
+            target_region = self.connectivity.region_labels[target_idx]
+            selected_centres=self.get_centres_for_regions(source_region,target_region,connectivity)
+            self.selected_centres=selected_centres
+            self.region_output.clear_output()
+            with self.region_output:
+              print(f"Source Region ({source_idx}): {source_region}")
+              print(f"Target Region ({target_idx}): {target_region}")
+              print(selected_centres)
 
             x = self.layout_offset + self.col * self.cell_size
             y = self.layout_offset + self.row * self.cell_size
@@ -316,6 +339,11 @@ class ConnectivityMatrixEditor(TVBWidget):
                 matrix_ui[5].line_width = 2
                 matrix_ui[5].stroke_style = "white"
                 matrix_ui[5].stroke_rect(x, y, self.cell_size, self.cell_size)
+    def get_centres_for_regions(self,source_region,target_region,connectivity):
+        region_names=[source_region,target_region]
+        all_region_labels=self.connectivity.region_labels
+        selected_indices=np.array([np.where(all_region_labels==name)[0][0] for name in region_names])
+        return connectivity.centres[selected_indices, :]
 
     def on_apply_change(self, change):
         self.is_connectivity_being_edited = True
@@ -468,5 +496,8 @@ class ConnectivityMatrixEditor(TVBWidget):
                                              self.layout_offset + 5)  # labels for colorbar
 
     def display(self):
-        display(self.header)
-        display(self.tab)
+         display(widgets.VBox([
+            self.header,
+            self.tab,
+            self.region_output  # This will show our region info
+        ]))
