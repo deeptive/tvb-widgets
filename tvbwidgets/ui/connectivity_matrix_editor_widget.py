@@ -297,7 +297,7 @@ class ConnectivityMatrixEditor(TVBWidget):
             with self.region_output:
               print(f"Source Region ({source_idx}): {source_region}")
               print(f"Target Region ({target_idx}): {target_region}")
-              print(selected_centres)
+              
 
             x = self.layout_offset + self.col * self.cell_size
             y = self.layout_offset + self.row * self.cell_size
@@ -360,9 +360,14 @@ class ConnectivityMatrixEditor(TVBWidget):
             matrix_name = self.clicked_matrix
             matrix = getattr(self.new_connectivity, matrix_name)
             max_val = matrix.max()
+            min_val = np.min(matrix[matrix > 0]) if np.any(matrix > 0) else 0
             matrix[self.from_row + int(self.row)][self.from_col + int(self.col)] = value
             if max_val != matrix.max():
                 self._update_matrices_view(self.new_connectivity)
+                maxi_val=matrix.max()
+
+            if min_val != matrix.min():
+                mini_val=matrix.min()
 
             self.popup.layout.visibility = "hidden"
 

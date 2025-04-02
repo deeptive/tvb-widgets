@@ -306,6 +306,11 @@ class SpaceTimeVisualizerWidget(TVBWidget):
             {np.min(self.connectivity.weights[np.nonzero(self.connectivity.weights)])}<br>
             <h4>max weight: </h4><br>
             {np.max(self.connectivity.weights)}<br><br></div>"""
+        
+    def update_min_tract_length(self,mini_value):
+        self.connectivity.tract_lengths+=value
+    def update_max_tract_length(self,maxi_value):
+        self.connectivity.tract_lengths+=value
 
     def display(self):
         display(self.options)
