@@ -34,7 +34,8 @@ class ConnectivityMatrixEditor(TVBWidget):
             size = self.num_rows * 20
         self.size = size
         self.layout_offset = self.size * 0.2
-
+        self.new_max_tract_length=None
+        self.new_min_tract_length=None
         self.is_connectivity_being_edited = True
         self.new_connectivity = self._prepare_new_connectivity()
         self.header = widgets.HBox(layout=self.DEFAULT_BORDER)
@@ -360,15 +361,13 @@ class ConnectivityMatrixEditor(TVBWidget):
             matrix_name = self.clicked_matrix
             matrix = getattr(self.new_connectivity, matrix_name)
             max_val = matrix.max()
-            min_val = np.min(matrix[matrix > 0]) if np.any(matrix > 0) else 0
+            min_val = np.min(matrix[matrix>0]) 
             matrix[self.from_row + int(self.row)][self.from_col + int(self.col)] = value
-            if max_val != matrix.max():
+            if max_val != matrix.max() and matrix_name == "tract_lengths":
                 self._update_matrices_view(self.new_connectivity)
-                maxi_val=matrix.max()
-
-            if min_val != matrix.min():
-                mini_val=matrix.min()
-
+                self.new_max_tract_length = matrix.max()
+            if min_val !=np.min(matrix[matrix>0]) and matrix_name== "tract_lengths":
+                self.new_min_tract_length=np.min(matrix[matrix>0])
             self.popup.layout.visibility = "hidden"
 
             x = self.layout_offset + self.col * self.cell_size
