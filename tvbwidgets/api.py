@@ -19,7 +19,7 @@ from .ui.ts.ts_widget_browser import TimeSeriesBrowser
 from .ui.pse_widget import PSEWidget
 from .ui.pse_launcher_widget import PSELauncher
 from tvbwidgets.core.hpc.config import HPCConfig
-from IPython.core.display_functions import display
+from IPython.display import display
 from tvb.datatypes.time_series import TimeSeries
 
 

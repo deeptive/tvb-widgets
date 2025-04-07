@@ -9,7 +9,7 @@ import numpy as np
 import ipywidgets as widgets
 import matplotlib.pyplot as plt
 import matplotlib.colors as mlt
-from IPython.core.display_functions import display
+from IPython.display import display
 from plotly_resampler import register_plotly_resampler, FigureWidgetResampler
 from tvbwidgets.ui.ts.base_ts_widget import TimeSeriesWidgetBase
 

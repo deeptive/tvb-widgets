@@ -10,7 +10,7 @@ import mne
 import numpy as np
 import ipywidgets as widgets
 import matplotlib.pyplot as plt
-from IPython.core.display_functions import display
+from IPython.display import display
 from tvbwidgets.core.ini_parser import parse_ini_file
 from tvbwidgets.ui.ts.base_ts_widget import TimeSeriesWidgetBase
 

@@ -8,7 +8,7 @@
 import os.path
 import plotly.graph_objects as go
 import ipywidgets as widgets
-from IPython.core.display_functions import display
+from IPython.display import display
 from tvbwidgets.core.exceptions import InvalidInputException
 from tvbwidgets.core.pse.pse_data import PSEData, PSEStorage
 from tvbwidgets.ui.base_widget import TVBWidget

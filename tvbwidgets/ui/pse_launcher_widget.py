@@ -15,7 +15,7 @@ from tvbwidgets.core.hpc.launcher import HPCLaunch
 from tvbwidgets.core.pse.parameters import launch_local_param
 from tvbwidgets.core.pse.parameters import METRICS
 from tvbwidgets.ui.base_widget import TVBWidget
-from IPython.core.display_functions import display
+from IPython.display import display
 
 
 class PSELauncher(TVBWidget):
